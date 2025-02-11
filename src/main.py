@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
 from enum import Enum
 
+#Function definition: (add, sub, mul, div, pow, sin , cos, abs, inv)
+
 def _add(args):
     return args[0] + args[1]
 
@@ -140,8 +142,9 @@ abs = OP(_abs, ops_types.abs, 1, _abs_print)
 const = OP(_const, ops_types.const, 1, _const_print)
 var = OP(_var, ops_types.var,1, _var_print)
 
+#basic building blocks available for creating an expression. I used different pools for different problems.
 
-opsPool = [add, sub, mul, inv, cos]
+opsPool = [add, sub, mul, inv, cos] #[add, sub, mul, inv, sin, cos, pow, abs]
 termPool = [const, var]
 constPool = [CONST(0, None),
              CONST(1, None),
@@ -193,6 +196,7 @@ class Expr:
         self.constList = []
         self.fitness = None
 
+    #initialize expression with random full
     def init_random_full(self, maxD):
         self.start = Node(get_random_element(opsPool), None, None)
         
@@ -218,6 +222,7 @@ class Expr:
         
         self.updateNodeDim()
 
+    #initialize expression with random grow
     def init_random_grow(self, maxD):
         self.start = Node(get_random_element(opsPool), None, None)
         
@@ -247,10 +252,12 @@ class Expr:
 
         self.updateNodeDim()
 
+    #Evaluate expression
     def getResult(self, vars):
 
         def _getRes(node):
 
+            #Reuse evaluateted subexpression
             if(node.tempRes is not None):
                 return node.tempRes
             
